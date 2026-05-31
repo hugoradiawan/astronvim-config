@@ -5,7 +5,7 @@ vim.opt.scrolloff = 999         -- cursor stays centered vertically
 -- Maximize screen real estate
 vim.opt.cmdheight = 0       -- hide command line when not in use
 vim.opt.laststatus = 3      -- single global statusline
-vim.opt.showtabline = 1     -- show tabline only when >1 tab
+vim.opt.showtabline = 2     -- always show tabline
 
 -- Numbered float terminals
 for i = 1, 5 do
