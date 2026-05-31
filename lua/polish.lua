@@ -1,5 +1,8 @@
 -- This will run last in the setup process.
 
+vim.keymap.set("i", "<C-x><C-o>", function() require("blink.cmp").show() end, { desc = "Show completions" })
+vim.keymap.set("i", "<C-Space>", function() require("blink.cmp").show() end, { desc = "Show completions" })
+
 vim.opt.scrolloff = 999         -- cursor stays centered vertically
 
 -- Maximize screen real estate
@@ -14,9 +17,17 @@ end
 
 -- Neovide fullscreen (no-op in terminal)
 if vim.g.neovide then
-  vim.g.neovide_fullscreen = true
+  vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+  vim.g.neovide_fullscreen = false
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
+
+  vim.keymap.set("n", "<C-=>", function()
+    vim.g.neovide_scale_factor = (vim.g.neovide_scale_factor or 1) + 0.1
+  end, { desc = "Increase font scale" })
+  vim.keymap.set("n", "<C-->", function()
+    vim.g.neovide_scale_factor = (vim.g.neovide_scale_factor or 1) - 0.1
+  end, { desc = "Decrease font scale" })
 end

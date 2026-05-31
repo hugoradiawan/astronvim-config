@@ -50,6 +50,15 @@ return {
       opts.keymap["<Tab>"] = { "snippet_forward", "fallback" }
       opts.keymap["<S-Tab>"] = { "snippet_backward", "fallback" }
 
+      opts.sources = opts.sources or {}
+      opts.sources.providers = opts.sources.providers or {}
+      opts.sources.providers.lsp = vim.tbl_deep_extend("force", opts.sources.providers.lsp or {}, {
+        min_keyword_length = 0,
+      })
+      opts.sources.providers.snippets = vim.tbl_deep_extend("force", opts.sources.providers.snippets or {}, {
+        min_keyword_length = 0,
+      })
+
       return opts
     end,
   },
