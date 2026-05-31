@@ -2,16 +2,14 @@
 return {
   {
     "artemave/workspace-diagnostics.nvim",
-    event = "LspAttach",
+    cmd = "WorkspaceDiagnostics",
     config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          require("workspace-diagnostics").populate_workspace_diagnostics(
-            vim.lsp.get_client_by_id(args.data.client_id),
-            args.buf
-          )
-        end,
-      })
+      vim.api.nvim_create_user_command("WorkspaceDiagnostics", function()
+        local client = vim.lsp.get_clients({ bufnr = 0 })[1]
+        if client then
+          require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+        end
+      end, { desc = "Populate workspace diagnostics" })
     end,
   },
   {
@@ -26,6 +24,17 @@ return {
         highlight = "Comment",
         prefix = "// ",
         enabled = true,
+      },
+      lsp = {
+        on_attach = function(client, bufnr)
+          client.server_capabilities.hoverProvider = true
+        end,
+        settings = {
+          dart = {
+            completeFunctionCalls = true,
+            showTodos = true,
+          },
+        },
       },
     },
   },
