@@ -75,3 +75,16 @@ if vim.g.neovide then
     vim.g.neovide_scale_factor = (vim.g.neovide_scale_factor or 1) - 0.1
   end, { desc = "Decrease font scale" })
 end
+
+-- Open dashboard when launched with a directory arg (e.g. desktop shortcut)
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
+      local dir = vim.fn.argv(0)
+      vim.cmd("cd " .. vim.fn.fnameescape(dir))
+      vim.schedule(function()
+        require("snacks").dashboard.open()
+      end)
+    end
+  end,
+})

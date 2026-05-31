@@ -52,6 +52,13 @@ return {
 
       opts.sources = opts.sources or {}
       opts.sources.default = { "lsp", "path", "snippets", "buffer" }
+      opts.cmdline = opts.cmdline or {}
+      opts.cmdline.sources = function()
+        local type = vim.fn.getcmdtype()
+        if type == "/" or type == "?" then return { "buffer" } end
+        if type == ":" then return { "cmdline" } end
+        return {}
+      end
       opts.sources.providers = opts.sources.providers or {}
       opts.sources.providers.lsp = vim.tbl_deep_extend("force", opts.sources.providers.lsp or {}, {
         min_keyword_length = 0,
